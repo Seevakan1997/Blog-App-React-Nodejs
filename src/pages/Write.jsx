@@ -7,8 +7,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 function Write() {
   const state = useLocation().state
-  const [value,setValue] = useState(state?.title || "");
-  const [title,setTitle] = useState(state?.desc || "");
+  const [value,setValue] = useState(state?.desc || "");
+  const [title,setTitle] = useState(state?.title || "");
   const [file,setFile] = useState(null);
   const [cat,setCat] = useState(state?.cat || "");
 
