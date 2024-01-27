@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
 import UserTempImg from '../img/userTe.png';
 
+
 const Navbar = () =>{
 
   const {currentUser,logout} = useContext(AuthContext);
@@ -44,11 +45,11 @@ const Navbar = () =>{
             <Link className='link' to='/write'>Write</Link>
           </span>
           <span className='userInfo' onClick={toggleDropdown}>
-               <img src={UserTempImg} alt=''/>
+               {currentUser?.img ?<img src={`/upload/userImg/${currentUser?.img}`} alt=''/>:<img style={{width:80,height:50}} src={UserTempImg} alt=''/>}
                {showDropdown && (
                   <div className='dropdownContent'>
                     {currentUser?<span>{currentUser?.username}</span>:null}
-                    {currentUser ? <span>Profile</span> : null}
+                    {currentUser ? <span><Link className='link' to={`/profile/${currentUser.id}`}>Profile</Link></span> : null}
                     {currentUser? <span onClick={logout}>Logout</span> :  (
                       <>
                         <span><Link className='link' to="/login">Login</Link></span>

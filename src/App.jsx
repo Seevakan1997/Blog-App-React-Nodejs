@@ -7,6 +7,7 @@ import Single from './pages/Single';
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import './style.scss';
+import Profile from "./pages/Profile";
 
 const Layout = ()=>{
   return(
@@ -56,7 +57,11 @@ const router = createBrowserRouter([
   {
     path:"/single",
     element:<Single/>
-  }
+  },
+  {
+    path:"/profile/:id",
+    element:<Profile/>
+  },
 ]);
 
 function App() {

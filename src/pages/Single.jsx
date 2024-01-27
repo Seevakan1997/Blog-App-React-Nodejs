@@ -51,7 +51,7 @@ function Single() {
       <div className='content'>
         <img src={`../upload/${post?.img}`}/>
         <div className='user'>
-        {post.userImg ? <img src={post.userImg} alt=''/> : <img src={UserTempImg} alt=''/>}
+        {post.userImg ? <img src={`/upload/userImg/${post.userImg}`} alt=''/> : <img src={UserTempImg} alt=''/>}
 
         <div className='info'>
           <span>{post?.username}</span>
