@@ -1,11 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react';
 import Logo from '../img/logo.png';
 import {Link} from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
+import UserTempImg from '../img/userTe.png';
 
 const Navbar = () =>{
 
   const {currentUser,logout} = useContext(AuthContext);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
 
   return (
     <div className='navbar'>
@@ -34,11 +40,23 @@ const Navbar = () =>{
           <Link className='link' to='/?cat=food'>
             <h6>FOOD</h6>
           </Link>
-          <span>{currentUser?.username}</span>
-          {currentUser? <span onClick={logout}>Logout</span> : <Link className='link' to="/login">Login</Link>
-          }
           <span className='write'>
             <Link className='link' to='/write'>Write</Link>
+          </span>
+          <span className='userInfo' onClick={toggleDropdown}>
+               <img src={UserTempImg} alt=''/>
+               {showDropdown && (
+                  <div className='dropdownContent'>
+                    {currentUser?<span>{currentUser?.username}</span>:null}
+                    {currentUser ? <span>Profile</span> : null}
+                    {currentUser? <span onClick={logout}>Logout</span> :  (
+                      <>
+                        <span><Link className='link' to="/login">Login</Link></span>
+                        <span><Link className='link' to="/register">Register</Link></span>
+                      </>
+                    )}
+                  </div>
+                )}
           </span>
         </div>
       </div>

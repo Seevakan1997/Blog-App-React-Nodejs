@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Edit from '../img/edit.png'
 import Delete from '../img/delete.png'
+import UserTempImg from '../img/userimg.png'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Menu from '../components/Menu'
 import axios from 'axios'
@@ -29,12 +30,16 @@ function Single() {
   },[postId]);
 
   const handleDelete = async ()=>{
+
+    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+    if (confirmDelete) {
     try{
       await axios.delete(`/posts/${postId}`)
       navigate("/")
     }catch(err){
       console.log(err);
     }
+   }
   }
 
   const getText = (html)=>{
@@ -46,8 +51,8 @@ function Single() {
       <div className='content'>
         <img src={`../upload/${post?.img}`}/>
         <div className='user'>
-          {post.userImg &&<img src={post.userImg} alt=''/>
-        }
+        {post.userImg ? <img src={post.userImg} alt=''/> : <img src={UserTempImg} alt=''/>}
+
         <div className='info'>
           <span>{post?.username}</span>
           <p>Posted {moment(post.date).fromNow()}</p>

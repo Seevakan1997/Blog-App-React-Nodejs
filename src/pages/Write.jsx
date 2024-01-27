@@ -1,9 +1,10 @@
 import axios from 'axios';
 import moment from 'moment';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/authContext';
 
 function Write() {
   const state = useLocation().state
@@ -11,6 +12,7 @@ function Write() {
   const [title,setTitle] = useState(state?.title || "");
   const [file,setFile] = useState(null);
   const [cat,setCat] = useState(state?.cat || "");
+  const { currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -29,6 +31,11 @@ function Write() {
 
   const handleClick = async e =>{
     e.preventDefault()
+
+    if (!currentUser) {
+      alert("Please log in to publish a post.");
+      return;
+    }
     const imgUrl= await upload();
     try{
       state ? await axios.put(`/posts/${state.id}`,{
