@@ -36,20 +36,32 @@ function Write() {
       alert("Please log in to publish a post.");
       return;
     }
-    const imgUrl= await upload();
-    try{
-      state ? await axios.put(`/posts/${state.id}`,{
-        title,
-        desc:value,
-        cat,
-        img:file ? imgUrl: ""
-      }):await axios.post(`/posts/`,{
-        title,
-        desc:value,
-        cat,
-        img:file ? imgUrl: "",
-        date:moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
-      });
+    try {
+      let imgUrl = "";
+  
+      if (file) {
+        imgUrl = await upload();
+      }
+  
+      if (state) {
+        // Update existing post
+        await axios.put(`/posts/${state.id}`, {
+          title,
+          desc: value,
+          cat,
+          img: imgUrl || state.img,
+        });
+      } else {
+        // Create new post
+        await axios.post(`/posts/`, {
+          title,
+          desc: value,
+          cat,
+          img: imgUrl,
+          date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+        });
+      }
+  
       navigate("/")
     }catch(err){
       console.log(err);

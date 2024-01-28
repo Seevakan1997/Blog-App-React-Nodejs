@@ -32,14 +32,16 @@ function Home() {
         {posts.map(post=>(
           <div className='post' key={post.id}>
             <div className='img'>
-              <img src={`../upload/${post.img}`} alt=''/>
+              <img src={`/upload/${encodeURIComponent(post.img)}`} alt=''/>
             </div>
             <div className='content'>
               <Link className='link' to={`/post/${post.id}`}>
                 <h1>{post.title}</h1>
               </Link>
                 <p>{getText(post.desc)}</p>
+                <Link className='link' to={`/post/${post.id}`}>
                 <button>Read More</button>
+                </Link>
             </div>
           </div>
         ))}

@@ -28,6 +28,10 @@ function Profile() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+        alert("Please log in to make changes.");
+        return;
+      }
     const imgUrl = await profileUpload();
   
     try {

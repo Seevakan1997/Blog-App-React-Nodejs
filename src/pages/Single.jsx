@@ -49,7 +49,7 @@ function Single() {
   return (
     <div className='single'>
       <div className='content'>
-        <img src={`../upload/${post?.img}`}/>
+        <img src={`../upload/${encodeURIComponent(post.img)}`}/>
         <div className='user'>
         {post.userImg ? <img src={`/upload/userImg/${post.userImg}`} alt=''/> : <img src={UserTempImg} alt=''/>}
 
