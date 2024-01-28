@@ -9,7 +9,7 @@ function Profile() {
   const [file, setFile] = useState(null);
   const [username,setUsername] = useState("");
   const [email,setEmail] = useState("");
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { currentUser, setCurrentUser,logout } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -32,14 +32,18 @@ function Profile() {
         alert("Please log in to make changes.");
         return;
       }
-    const imgUrl = await profileUpload();
+
+      let imgUrl = currentUser.img;
+      if (file) {
+        imgUrl = await profileUpload();
+      }
   
     try {
       const updatedUser = await axios.put(`/users/${currentUser.id}`, {
         ...currentUser,
         username: username || currentUser.username,
         email: email || currentUser.email,
-        img: file ? imgUrl : "",
+        img: imgUrl,
       });
   
       setCurrentUser(updatedUser.data);
@@ -49,6 +53,10 @@ function Profile() {
     }
   };
   
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <div className='profile'>
@@ -70,6 +78,7 @@ function Profile() {
           <input type='text' placeholder='Username' name='username' value={username || currentUser?.username} onChange={e=>setUsername(e.target.value)} />
           <input type='email' placeholder='email' name='email' value={email || currentUser?.email} onChange={e=>setEmail(e.target.value)} />
           <button onClick={handleClick}>Update</button>
+          {currentUser?<button className='logOut' onClick={handleLogout}>Logout</button> :""}
         </form>
       </div>
     </div>
